@@ -37,4 +37,6 @@ public interface EventTypes {
 
 	public static final String UPDATE = "UPDATE";
 
+	public static final String VIEW = "VIEW";
+
 }
