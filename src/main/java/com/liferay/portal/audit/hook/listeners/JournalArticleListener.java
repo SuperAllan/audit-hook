@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.liferay.portal.audit.hook.listeners.util.Attribute;
 import com.liferay.portal.audit.hook.listeners.util.AttributesBuilder;
-import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
@@ -47,19 +46,13 @@ public class JournalArticleListener extends AbstractListener<JournalArticle> {
 	}
 
 	@Override
-	protected void configureMessage(final AuditMessage auditMessage,
-		final JournalArticle newModel) {
-
-		auditMessage.setUserId(newModel.getUserId());
-		auditMessage.setUserName(newModel.getUserName());
-		auditMessage.setClassPK(newModel.getArticleId());
-		auditMessage.setCompanyId(newModel.getCompanyId());
-
+	protected JournalArticle getOldModel(long id) throws SystemException {
+		return JournalArticleLocalServiceUtil.fetchJournalArticle(id);
 	}
 
 	@Override
-	protected JournalArticle getOldModel(long id) throws SystemException {
-		return JournalArticleLocalServiceUtil.fetchJournalArticle(id);
+	protected long getPrimaryKeyObj(final JournalArticle model) {
+		return model.getId();
 	}
 
 }

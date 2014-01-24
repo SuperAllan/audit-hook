@@ -1,13 +1,12 @@
 package com.liferay.portal.audit.hook.listeners;
 
-import java.util.List;
-
 import com.liferay.portal.audit.hook.listeners.util.Attribute;
 import com.liferay.portal.audit.hook.listeners.util.AttributesBuilder;
-import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portlet.messageboards.model.MBMessage;
 import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil;
+
+import java.util.List;
 
 public class MBMessageListener extends AbstractListener<MBMessage> {
 
@@ -44,20 +43,13 @@ public class MBMessageListener extends AbstractListener<MBMessage> {
 	}
 
 	@Override
-	protected void configureMessage(final AuditMessage auditMessage,
-		final MBMessage newModel) {
-
-		auditMessage.setUserId(newModel.getUserId());
-		auditMessage.setUserName(newModel.getUserName());
-		auditMessage.setClassPK(newModel.getMessageId());
-		auditMessage.setCompanyId(newModel.getCompanyId());
-
-	}
-
-	@Override
-	protected MBMessage getOldModel(long id) throws SystemException {
+	protected MBMessage getOldModel(final long id) throws SystemException {
 		return MBMessageLocalServiceUtil.fetchMBMessage(id);
 	}
 
+	@Override
+	protected long getPrimaryKeyObj(final MBMessage model) {
+		return model.getMessageId();
+	}
 
 }
